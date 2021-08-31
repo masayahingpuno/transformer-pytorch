@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 #from einops import rearrange, reduce, repeat
 
-class SelfAttention(nn.module):
+class SelfAttention(nn.Module):
     def __init__(self, embedding_size, heads):
         super(SelfAttention, self).__init()
         self.embedding_size = embedding_size
@@ -21,9 +21,9 @@ class SelfAttention(nn.module):
         
     def forward (self, values, keys, queries, mask):
         # Get the number of training examples
-        N = query.shape[0] # 0 means ROW
+        N = queries.shape[0] # 0 means ROW
         
-        value_len, keys_len, query_len = values.shape[1], keys.shape[1], query.shape[1] # 1 means column
+        value_len, keys_len, query_len = values.shape[1], keys.shape[1], queries.shape[1] # 1 means column
         
         # Split the embedding into self.heads different pieces 
         values = values.reshape(N, value_len, self.heads, self.head_dimension)
